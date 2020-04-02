@@ -14,5 +14,8 @@ class Project(base_model):
     description = Column(Text, nullable = False)
     manager = Column(Integer, nullable = False)
     status = Column(String, nullable = False)
-    tasks = db.relationship("Task", backref="project")
-    assignees = db.relationship("User", secondary=project_assignment, backref="projects")
+    tasks = db.relationship("Task", cascade="all, delete-orphan")
+    assignees = db.relationship("User", secondary=project_assignment)
+
+    def __repr__(self):
+        return f'<Project {self.name}, {self.assignees}, {self.tasks}>'

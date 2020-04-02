@@ -9,5 +9,8 @@ class User(base_model):
     first_name = Column(String(50), nullable = False)
     last_name = Column(String(50), nullable = False)
     position = Column(String(15), nullable = False)
-    tasks = db.relationship("Task", backref="assignee")
-    projects = db.relationship("Project", secondary=project_assignment, backref="assignees")
+    tasks = db.relationship("Task", cascade="all, delete-orphan")
+    projects = db.relationship("Project", secondary=project_assignment)
+
+    def __repr__(self):
+        return f'<User {self.first_name}, {self.tasks}, {self.projects}>'
