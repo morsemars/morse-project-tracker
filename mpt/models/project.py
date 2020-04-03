@@ -3,12 +3,12 @@ from mpt.models.base_model import base_model
 from sqlalchemy import Column, String, Integer, Text, Table, ForeignKey
 
 project_assignment = Table('project_assignment', db.metadata,
-    Column('project_id', Integer, ForeignKey('project.id')),
-    Column('user_id', Integer, ForeignKey('user.id'))
+    Column('project_id', Integer, ForeignKey('projects.id')),
+    Column('user_id', Integer, ForeignKey('users.id'))
 )
 
 class Project(base_model):
-    __tablename__ = "project"
+    __tablename__ = "projects"
 
     name = Column(String(50), nullable = False)
     description = Column(Text, nullable = False)
