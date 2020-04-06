@@ -13,4 +13,4 @@ class User(base_model):
     projects = db.relationship("Project", secondary=project_assignment)
 
     def __repr__(self):
-        return f'<User {self.first_name}, {self.tasks}, {self.projects}>'
+        return f'<User  {self.id}, {self.first_name}, {self.tasks}, {self.projects}>'
