@@ -8,9 +8,12 @@ def setup_projects(app):
     @app.route('/projects')
     #@requires_auth('get:projects')
     #def get__projects(jwt):
-    def get__projects():
+    def get_projects():
 
         projects = Project.query.all()
+
+        if projects is None:
+            abort(404)
 
         return jsonify({
             'success': True,
