@@ -53,7 +53,6 @@ class UserTestCase(unittest.TestCase):
         """Executed after reach test"""
         pass
 
-    @unittest.skip("TEST")
     def test_add_new_project(self):
         
         res = self.client().post('/projects', json = self.new_project)
