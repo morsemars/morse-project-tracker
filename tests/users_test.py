@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from mpt import create_app
 from mpt.models import db
 from mpt.models.user import User
+from mpt.models.project import Project
 
 class UserTestCase(unittest.TestCase):
     def setUp(self):
@@ -33,6 +34,12 @@ class UserTestCase(unittest.TestCase):
             user = User.query.first()
 
         self.user_id = user.id
+
+        if not user.projects:
+            projects = Project.query.all()
+            for project in projects:
+                user.projects.append(project)
+            user.update()
 
     def tearDown(self):
         """Executed after reach test"""
@@ -90,6 +97,7 @@ class UserTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], "Page Not Found")
 
+    
     def test_update_user_details(self):
         res = self.client().patch('/users/{}'.format(self.user_id), json={
             "first_name": "Marcelinoooo",
@@ -111,6 +119,7 @@ class UserTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], "Method Not Allowed")
 
+    
     def test_delete_user(self):
 
         res = self.client().delete('/users/{}'.format(self.user_id))
@@ -134,6 +143,15 @@ class UserTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 405)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], "Method Not Allowed")
+
+    def test_get_user_projects(self):
+        res = self.client().get('/users/{}/projects'.format(self.user_id))
+
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['projects'])
 
 if __name__ == "__main__":
     unittest.main()
