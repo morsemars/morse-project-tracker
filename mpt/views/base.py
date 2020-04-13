@@ -34,8 +34,6 @@ def get_one(model, return_result_name):
     
     data = model.one_or_none()
 
-    print(data)
-
     if data is None:
             abort(404)
 

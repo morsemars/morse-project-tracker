@@ -1,7 +1,7 @@
 from flask import jsonify, request, abort
 from mpt.models.project import Project
 from mpt.auth import requires_auth
-from mpt.models import db
+from mpt.views.base import insert, get_all, get_one, update, delete
 
 def setup_projects(app):
 
@@ -10,15 +10,8 @@ def setup_projects(app):
     #def get__projects(jwt):
     def get_projects():
 
-        projects = Project.query.all()
-
-        if projects is None:
-            abort(404)
-
-        return jsonify({
-            'success': True,
-            'projects': [project._asdict() for project in projects]
-        })
+        projects = Project.query
+        return get_all(projects, 'projects')
 
     @app.route('/projects', methods=["POST"])
     def add_new_project():
@@ -31,35 +24,13 @@ def setup_projects(app):
             status = data.get("status")
         )
 
-        isSuccessful = True
-
-        try:
-            new_project.insert()
-        except:
-            
-            db.session.rollback()
-            isSuccessful = False
-        finally:
-            if isSuccessful:
-                return jsonify({
-                    'success': True,
-                    'created':  new_project.id,
-                })
-            else:
-                abort(422)
+        return insert(new_project) 
 
     @app.route('/projects/<id>', methods=["GET"])
     def get_project_by_id(id):
 
-        project = Project.query.filter_by(id = id).one_or_none()
-
-        if project is None:
-            abort(404)
-
-        return jsonify({
-            'success': True,
-            'project': project._asdict()
-        })
+        project = Project.query.filter_by(id = id)
+        return get_one(project, "project")
     
     @app.route('/projects/<id>', methods=["PATCH"])
     def update_project(id):
@@ -76,21 +47,7 @@ def setup_projects(app):
         project.manager = data.get("manager"),
         project.status = data.get("status")
 
-        isSuccessful = True
-
-        try:
-            project.update()
-        except:
-            db.session.rollback()
-            isSuccessful = False
-        finally:
-            if isSuccessful:
-                return jsonify({
-                    'success': True,
-                    'project': project._asdict()
-                })
-            else:
-                abort(422)
+        return update(project, "project")
 
     @app.route("/projects/<id>", methods=["DELETE"])
     def delete_project(id):
@@ -100,17 +57,4 @@ def setup_projects(app):
         if project is None:
             abort(404)
 
-        isSuccessful = True
-
-        try:
-            project.delete()
-        except:
-            db.session.rollback()
-            isSuccessful = False
-        finally:
-            if isSuccessful:
-                return jsonify({
-                    'success': True
-                })
-            else:
-                abort(422)
+        return delete(project)
