@@ -1,4 +1,4 @@
-from flask import request, abort
+from flask import request, abort, jsonify
 from mpt.models.task import Task
 from mpt.views.base import insert, get_all, get_one, update, delete
 
@@ -55,3 +55,18 @@ def setup_tasks(app):
             abort(404)
 
         return delete(task)
+
+    @app.route("/tasks/<id>/activities")
+    def get_task_activities(id):
+
+        task = Task.query.filter_by(id = id).one_or_none()
+
+        if task is None:
+            abort(404)
+
+        activities = [activity._asdict() for activity in task.activities]
+
+        return jsonify({
+            'success': True,
+            'activities': activities
+        })
