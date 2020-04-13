@@ -58,3 +58,18 @@ def setup_projects(app):
             abort(404)
 
         return delete(project)
+
+    @app.route('/projects/<id>/tasks', methods=["GET"])
+    def get_project_tasks(id):
+
+        project = Project.query.filter_by(id = id).one_or_none()
+ 
+        if project is None:
+            abort(404)
+
+        tasks = [task._asdict() for task in project.tasks]
+
+        return jsonify({
+            'success': True,
+            'tasks': tasks
+        })

@@ -71,4 +71,19 @@ def setup_users(app):
             'projects': projects
         })
 
+    @app.route('/users/<id>/tasks', methods=["GET"])
+    def get_user_tasks(id):
+
+        user = User.query.filter_by(id = id).one_or_none()
+
+        if user is None:
+            abort(404)
+
+        tasks = [task._asdict() for task in user.tasks]
+
+        return jsonify({
+            'success': True,
+            'tasks': tasks
+        })
+
         
