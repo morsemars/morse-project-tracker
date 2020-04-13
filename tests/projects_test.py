@@ -7,7 +7,7 @@ from mpt.models import db
 from mpt.models.user import User
 from mpt.models.project import Project
 
-class UserTestCase(unittest.TestCase):
+class ProjectsTestCase(unittest.TestCase):
     def setUp(self):
         database_name = "mpt_test"
         database_path = "postgresql://{}/{}".format('postgres@localhost:5433', database_name)
