@@ -6,6 +6,7 @@ from mpt import create_app
 from mpt.models import db
 from mpt.models.user import User
 from mpt.models.project import Project
+from mpt.models.task import Task
 
 class ProjectsTestCase(unittest.TestCase):
     def setUp(self):
@@ -18,6 +19,8 @@ class ProjectsTestCase(unittest.TestCase):
 
         manager = User.query.filter_by(position="Manager").one_or_none()
 
+        dev = User.query.filter_by(position="Developer").one_or_none()
+
         if manager is None:
             User(
                 first_name = "Marcelino",
@@ -25,6 +28,14 @@ class ProjectsTestCase(unittest.TestCase):
                 position = "Manager"
             ).insert()
             manager = User.query.filter_by(position="Manager").one_or_none()
+
+        if dev is None:
+            User(
+                first_name = "Marcelino",
+                last_name = "Madriaga",
+                position = "Developer"
+            ).insert()
+            dev = User.query.filter_by(position="Developer").one_or_none()
 
         self.new_project = {
             "name":"Test Project",
@@ -45,16 +56,39 @@ class ProjectsTestCase(unittest.TestCase):
 
             project = Project.query.first()
 
+        self.new_task = {
+            "name": "Test Task",
+            "description": "This is the description for the task.",
+            "status": "created",
+            "project": project.id
+        }
+
         self.project_id = project.id
         self.manager_id = manager.id
+        self.dev_id = dev.id
 
+        if not project.tasks:
+            tasks = Task.query.all()
+
+            if not tasks: 
+                Task(
+                    name = self.new_task["name"],
+                    description = self.new_task["description"],
+                    status = self.new_task["status"],
+                    project = self.new_task["project"]
+                ).insert()
+                tasks = Task.query.all()
+
+            for task in tasks:
+                project.tasks.append(task)
+            project.update()
 
     def tearDown(self):
         """Executed after reach test"""
         pass
 
     def test_add_new_project(self):
-        
+
         res = self.client().post('/projects', json = self.new_project)
         
         data = json.loads(res.data)
@@ -62,7 +96,27 @@ class ProjectsTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['created'])
 
-    def test_error_422_when_missing_project_properties(self):
+    def test_422_when_manager_id_is_not_found(self):
+
+        self.new_project["manager"] = 0
+
+        res = self.client().post('/projects', json = self.new_project)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], "Request Cannot Be Processed")
+
+    def test_422_when_user_not_manager(self):
+
+        self.new_project["manager"] = self.dev_id
+
+        res = self.client().post('/projects', json = self.new_project)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], "Request Cannot Be Processed")
+
+    def test_422_when_missing_project_properties(self):
         res = self.client().post('/projects', json = {})
 
         data = json.loads(res.data)
@@ -111,7 +165,8 @@ class ProjectsTestCase(unittest.TestCase):
             "name":"Test Project",
             "description":"UPDATED PROJECT DESCRIPTION",
             "manager": self.manager_id,
-            "status":"ongoing"
+            "status":"ongoing",
+            "assignees": [self.dev_id]
         })
 
         data = json.loads(res.data)
@@ -151,6 +206,15 @@ class ProjectsTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 405)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], "Method Not Allowed")
+
+    def test_get_project_tasks(self):
+        res = self.client().get('/projects/{}/tasks'.format(self.project_id))
+
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['tasks'])
 
 if __name__ == "__main__":
     unittest.main()

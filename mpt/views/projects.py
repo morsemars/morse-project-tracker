@@ -1,5 +1,6 @@
 from flask import jsonify, request, abort
 from mpt.models.project import Project
+from mpt.models.user import User
 from mpt.auth import requires_auth
 from mpt.views.base import insert, get_all, get_one, update, delete
 
@@ -16,6 +17,18 @@ def setup_projects(app):
     @app.route('/projects', methods=["POST"])
     def add_new_project():
         data = request.get_json()
+
+        manager_id = data.get("manager")
+
+        user = User.query.filter_by(id = manager_id).one_or_none()
+
+        if user is None:
+            abort(422)
+
+        if user.position != "Manager":
+            abort(422)
+
+        print(data.get("manager"))
 
         new_project = Project(
             name = data.get("name"),
@@ -34,18 +47,23 @@ def setup_projects(app):
     
     @app.route('/projects/<id>', methods=["PATCH"])
     def update_project(id):
+        #TODO: add assignee validation
 
         data = request.get_json()
+        assignees = data.get("assignees")
 
         project = Project.query.filter_by(id = id).one_or_none()
-
+    
         if project is None:
             abort(404)
 
-        project.name = data.get("name"),
-        project.description = data.get("description"),
-        project.manager = data.get("manager"),
+        new_assigness = User.query.filter(User.id.in_(assignees)).all()
+
+        project.name = data.get("name")
+        project.description = data.get("description")
+        project.manager = data.get("manager")
         project.status = data.get("status")
+        project.assignees = new_assigness
 
         return update(project, "project")
 
