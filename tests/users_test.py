@@ -6,6 +6,7 @@ from mpt import create_app
 from mpt.models import db
 from mpt.models.user import User
 from mpt.models.project import Project
+from mpt.models.task import Task
 
 class UsersTestCase(unittest.TestCase):
     def setUp(self):
@@ -39,6 +40,30 @@ class UsersTestCase(unittest.TestCase):
             projects = Project.query.all()
             for project in projects:
                 user.projects.append(project)
+            user.update()
+
+        self.new_task = {
+            "name": "Test Task",
+            "description": "This is the description for the task.",
+            "status": "created",
+            "project": user.projects[0].id
+        }
+
+        if not user.tasks:
+            
+            tasks = Task.query.all()
+
+            if not tasks:
+                Task(
+                    name = self.new_task["name"],
+                    description = self.new_task["description"],
+                    status = self.new_task["status"],
+                    project = self.new_task["project"]
+                ).insert()
+                tasks = Task.query.all()
+
+            for task in tasks:
+                user.tasks.append(task)
             user.update()
 
     def tearDown(self):
@@ -152,6 +177,15 @@ class UsersTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['projects'])
+
+    def test_get_user_tasks(self):
+        res = self.client().get('/users/{}/tasks'.format(self.user_id))
+
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['tasks'])
 
 if __name__ == "__main__":
     unittest.main()

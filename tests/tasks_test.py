@@ -7,6 +7,8 @@ from mpt.models import db
 from mpt.models.user import User
 from mpt.models.task import Task
 from mpt.models.project import Project
+from mpt.models.activity import Activity
+
 
 class TasksTestCase(unittest.TestCase):
     def setUp(self):
@@ -17,10 +19,43 @@ class TasksTestCase(unittest.TestCase):
         self.client = self.app.test_client
         db.create_all()
 
-        task = Task.query.first()
         project = Project.query.first()
-        dev = User.query.first()
+        dev = User.query.filter_by(position="Developer").one_or_none()
+        manager = User.query.filter_by(position="Manager").one_or_none()
 
+        if manager is None:
+            User(
+                first_name = "Marcelino",
+                last_name = "Madriaga",
+                position = "Manager"
+            ).insert()
+            manager = User.query.filter_by(position="Manager").one_or_none()
+
+        if dev is None:
+            User(
+                first_name = "Marcelino",
+                last_name = "Madriaga",
+                position = "Developer"
+            ).insert()
+            dev = User.query.filter_by(position="Developer").one_or_none()
+
+        self.new_project = {
+            "name":"Test Project",
+            "description":"This is the description for the project.",
+            "manager": manager.id,
+            "status":"ongoing"
+        }
+
+        if project is None:
+            Project(
+                name = self.new_project["name"],
+                description =self.new_project["description"],
+                manager = self.new_project["manager"],
+                status = self.new_project["status"],
+                assignees = [dev]
+            ).insert()
+            project = Project.query.first()
+        
         self.new_task = {
             "name": "Test Task",
             "description": "This is the description for the task.",
@@ -28,7 +63,7 @@ class TasksTestCase(unittest.TestCase):
             "project": project.id
         }
 
-        if task is None:
+        if not project.tasks:
             Task(
                 name = self.new_task["name"],
                 description = self.new_task["description"],
@@ -36,6 +71,21 @@ class TasksTestCase(unittest.TestCase):
                 project = self.new_task["project"]
             ).insert()
             task = Task.query.first()
+        else:
+            task = project.tasks[0]
+
+        self.new_activity = {
+            "description": "Activity description here.",
+            "hours": 1,
+            "task_id": task.id
+        }
+
+        if not task.activities:
+            task.activities.append(Activity(
+                description = self.new_activity["description"],
+                hours = self.new_activity["hours"],
+                task_id = self.new_activity["task_id"]
+            ))
 
         self.task_id = task.id
         self.dev_id = dev.id
@@ -54,6 +104,14 @@ class TasksTestCase(unittest.TestCase):
         self.assertTrue(data['created'])
 
   
+    def test_error_422_when_project_not_found(self):
+        self.new_task["project"] = 0
+        res = self.client().post('/tasks', json = self.new_task)
+
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], "Request Cannot Be Processed")
 
     def test_error_422_when_missing_task_properties(self):
         res = self.client().post('/tasks', json = {})
@@ -114,6 +172,20 @@ class TasksTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['task'])
 
+    def test_error_422_when_user_not_assigned_in_project(self):
+        res = self.client().patch('/tasks/{}'.format(self.task_id), json={
+            "name": "Test Task UPDATED",
+            "description": "This is the description for the task.",
+            "status": "created",
+            "assignee": 0,
+            "project": self.new_task["project"]
+        })
+
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], "Request Cannot Be Processed")
+
     def test_405_if_update_task_not_allowed(self):
 
         res = self.client().patch('/tasks', json = self.new_task)
@@ -148,14 +220,14 @@ class TasksTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], "Method Not Allowed")
 
-    # def test_get_user_projects(self):
-    #     res = self.client().get('/tasks/{}/projects'.format(self.user_id))
+    def test_get_task_activities(self):
+        res = self.client().get('/tasks/{}/activities'.format(self.task_id))
 
-    #     data = json.loads(res.data)
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
-    #     self.assertTrue(data['projects'])
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['activities'])
 
 if __name__ == "__main__":
     unittest.main()
