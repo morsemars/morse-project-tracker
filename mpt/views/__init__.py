@@ -4,6 +4,7 @@ from mpt.views.projects import setup_projects
 from mpt.views.tasks import setup_tasks
 from mpt.views.users import setup_users
 from mpt.views.activities import setup_activities
+from mpt.auth import AuthError
 
 
 def setup_views(app):
@@ -19,6 +20,16 @@ def setup_views(app):
     setup_tasks(app)
     setup_users(app)
     setup_activities(app)
+
+    @app.errorhandler(AuthError)
+    def auth_error_handler(error):
+        print(error.status_code, error.error["description"])
+        return jsonify({
+            "success": False, 
+            "error": error.status_code,
+            "message": error.error['description']
+        }), error.status_code
+
 
     @app.errorhandler(404)
     def page_not_found(error):

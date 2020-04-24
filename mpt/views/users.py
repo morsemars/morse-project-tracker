@@ -1,17 +1,20 @@
 from flask import request, abort, jsonify
 from mpt.models.user import User
+from mpt.auth import requires_auth
 from mpt.views.base import insert, get_all, get_one, update, delete
 
 def setup_users(app):
 
     @app.route('/users')
-    def get_users():
+    @requires_auth('get:users')
+    def get_users(jwt):
 
         users = User.query
         return get_all(users, 'users')
 
     @app.route('/users', methods=["POST"])
-    def add_new_user():
+    @requires_auth('post:user')
+    def add_new_user(jwt):
 
         data = request.get_json()
 
@@ -24,14 +27,16 @@ def setup_users(app):
         return insert(new_user)
 
     @app.route('/users/<id>', methods=["GET"])
-    def get_user_by_id(id):
+    @requires_auth('get:users')
+    def get_user_by_id(jwt,id):
 
         user = User.query.filter_by(id = id)
 
         return get_one(user, "user")
 
     @app.route('/users/<id>', methods=["PATCH"])
-    def update_user(id):
+    @requires_auth('patch:user')
+    def update_user(jwt,id):
 
         data = request.get_json()
 
@@ -47,7 +52,8 @@ def setup_users(app):
         return update(user, "user")
 
     @app.route("/users/<id>", methods=["DELETE"])
-    def delete_user(id):
+    @requires_auth('delete:user')
+    def delete_user(jwt, id):
 
         user = User.query.filter_by(id = id).one_or_none()
 
@@ -57,7 +63,8 @@ def setup_users(app):
         return delete(user)
 
     @app.route('/users/<id>/projects', methods=["GET"])
-    def get_user_projects(id):
+    @requires_auth('get:projects')
+    def get_user_projects(jwt, id):
 
         user = User.query.filter_by(id = id).one_or_none()
 
@@ -72,7 +79,8 @@ def setup_users(app):
         })
 
     @app.route('/users/<id>/tasks', methods=["GET"])
-    def get_user_tasks(id):
+    @requires_auth('get:tasks')
+    def get_user_tasks(jwt,id):
 
         user = User.query.filter_by(id = id).one_or_none()
 

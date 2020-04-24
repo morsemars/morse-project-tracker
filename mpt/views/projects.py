@@ -7,15 +7,15 @@ from mpt.views.base import insert, get_all, get_one, update, delete
 def setup_projects(app):
 
     @app.route('/projects')
-    #@requires_auth('get:projects')
-    #def get__projects(jwt):
-    def get_projects():
+    @requires_auth('get:projects')
+    def get__projects(jwt):
 
         projects = Project.query
         return get_all(projects, 'projects')
 
     @app.route('/projects', methods=["POST"])
-    def add_new_project():
+    @requires_auth('post:projects')
+    def add_new_project(jwt):
         data = request.get_json()
 
         manager_id = data.get("manager")
@@ -40,14 +40,15 @@ def setup_projects(app):
         return insert(new_project) 
 
     @app.route('/projects/<id>', methods=["GET"])
-    def get_project_by_id(id):
+    @requires_auth('get:projects')
+    def get_project_by_id(jwt,id):
 
         project = Project.query.filter_by(id = id)
         return get_one(project, "project")
     
     @app.route('/projects/<id>', methods=["PATCH"])
-    def update_project(id):
-        #TODO: add assignee validation
+    @requires_auth('patch:project')
+    def update_project(jwt,id):
 
         data = request.get_json()
         assignees = data.get("assignees")
@@ -68,7 +69,8 @@ def setup_projects(app):
         return update(project, "project")
 
     @app.route("/projects/<id>", methods=["DELETE"])
-    def delete_project(id):
+    @requires_auth('delete:project')
+    def delete_project(jwt, id):
 
         project = Project.query.filter_by(id = id).one_or_none()
 
@@ -78,7 +80,8 @@ def setup_projects(app):
         return delete(project)
 
     @app.route('/projects/<id>/tasks', methods=["GET"])
-    def get_project_tasks(id):
+    @requires_auth('get:tasks')
+    def get_project_tasks(jwt, id):
 
         project = Project.query.filter_by(id = id).one_or_none()
  

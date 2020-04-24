@@ -1,18 +1,21 @@
 from flask import request, abort, jsonify
 from mpt.models.task import Task
+from mpt.auth import requires_auth
 from mpt.models.project import Project
 from mpt.views.base import insert, get_all, get_one, update, delete
 
 def setup_tasks(app):
 
     @app.route('/tasks')
-    def get_tasks():
+    @requires_auth('get:tasks')
+    def get_tasks(jwt):
 
         task = Task.query
         return get_all(task, 'tasks')
     
     @app.route('/tasks', methods=['POST'])
-    def add_task():
+    @requires_auth('post:tasks')
+    def add_task(jwt):
 
         data = request.get_json()
         project_id = data.get("project")
@@ -31,13 +34,15 @@ def setup_tasks(app):
         return insert(new_task)
 
     @app.route('/tasks/<id>', methods=["GET"])
-    def get_task_by_id(id):
+    @requires_auth('get:tasks')
+    def get_task_by_id(jwt, id):
 
         task = Task.query.filter_by(id = id)
         return get_one(task, "task")
         
     @app.route('/tasks/<id>', methods=["PATCH"])
-    def update_tasks(id):
+    @requires_auth('patch:task')
+    def update_tasks(jwt,id):
 
         data = request.get_json()
         project_id = data.get("project")
@@ -66,7 +71,8 @@ def setup_tasks(app):
         return update(task, 'task')
 
     @app.route("/tasks/<id>", methods=["DELETE"])
-    def delete_task(id):
+    @requires_auth('delete:task')
+    def delete_task(jwt,id):
 
         task = Task.query.filter_by(id = id).one_or_none()
 
@@ -76,7 +82,8 @@ def setup_tasks(app):
         return delete(task)
 
     @app.route("/tasks/<id>/activities")
-    def get_task_activities(id):
+    @requires_auth('get:activities')
+    def get_task_activities(jwt,id):
 
         task = Task.query.filter_by(id = id).one_or_none()
 

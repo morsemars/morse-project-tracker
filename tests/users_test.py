@@ -8,6 +8,8 @@ from mpt.models.user import User
 from mpt.models.project import Project
 from mpt.models.task import Task
 
+from tests.config import TOKEN
+
 class UsersTestCase(unittest.TestCase):
     def setUp(self):
         database_name = "mpt_test"
@@ -71,7 +73,7 @@ class UsersTestCase(unittest.TestCase):
         pass
 
     def test_add_new_user(self):
-        res = self.client().post('/users', json = self.new_user)
+        res = self.client().post('/users', json = self.new_user, headers={'Authorization': TOKEN})
         
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
@@ -79,7 +81,7 @@ class UsersTestCase(unittest.TestCase):
         self.assertTrue(data['created'])
 
     def test_error_422_when_missing_user_properties(self):
-        res = self.client().post('/users', json = {})
+        res = self.client().post('/users', json = {}, headers={'Authorization': TOKEN})
 
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 422)
@@ -88,7 +90,7 @@ class UsersTestCase(unittest.TestCase):
     
     def test_405_if_add_user_not_allowed(self):
 
-        res = self.client().post('/users/20', json = self.new_user)
+        res = self.client().post('/users/20', json = self.new_user, headers={'Authorization': TOKEN})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 405)
@@ -97,7 +99,7 @@ class UsersTestCase(unittest.TestCase):
 
     def test_get_users(self):
 
-        res = self.client().get('/users')
+        res = self.client().get('/users', headers={'Authorization': TOKEN})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -106,7 +108,7 @@ class UsersTestCase(unittest.TestCase):
 
     def test_get_user_by_id(self):
 
-        res = self.client().get('/users/{}'.format(self.user_id))
+        res = self.client().get('/users/{}'.format(self.user_id), headers={'Authorization': TOKEN})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
@@ -115,7 +117,7 @@ class UsersTestCase(unittest.TestCase):
 
     def test_404_if_user_not_found(self):
 
-        res = self.client().get('/users/99999')
+        res = self.client().get('/users/99999', headers={'Authorization': TOKEN})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 404)
@@ -128,7 +130,7 @@ class UsersTestCase(unittest.TestCase):
             "first_name": "Marcelinoooo",
             "last_name":"Madriaga",
             "position": "Manager"
-        })
+        }, headers={'Authorization': TOKEN})
 
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
@@ -137,7 +139,7 @@ class UsersTestCase(unittest.TestCase):
 
     def test_405_if_update_user_not_allowed(self):
 
-        res = self.client().patch('/users', json = self.new_user)
+        res = self.client().patch('/users', json = self.new_user, headers={'Authorization': TOKEN})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 405)
@@ -147,14 +149,14 @@ class UsersTestCase(unittest.TestCase):
     
     def test_delete_user(self):
 
-        res = self.client().delete('/users/{}'.format(self.user_id))
+        res = self.client().delete('/users/{}'.format(self.user_id), headers={'Authorization': TOKEN})
 
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
 
     def test_404_if_delete_user_not_exists(self):
-        res = self.client().delete('/users/0')
+        res = self.client().delete('/users/0', headers={'Authorization': TOKEN})
 
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 404)
@@ -162,7 +164,7 @@ class UsersTestCase(unittest.TestCase):
         self.assertEqual(data['message'], "Page Not Found")
 
     def test_405_if_delete_user_not_allowed(self):
-        res = self.client().delete('/users')
+        res = self.client().delete('/users', headers={'Authorization': TOKEN})
 
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 405)
@@ -170,7 +172,7 @@ class UsersTestCase(unittest.TestCase):
         self.assertEqual(data['message'], "Method Not Allowed")
 
     def test_get_user_projects(self):
-        res = self.client().get('/users/{}/projects'.format(self.user_id))
+        res = self.client().get('/users/{}/projects'.format(self.user_id), headers={'Authorization': TOKEN})
 
         data = json.loads(res.data)
 
@@ -179,7 +181,7 @@ class UsersTestCase(unittest.TestCase):
         self.assertTrue(data['projects'])
 
     def test_get_user_tasks(self):
-        res = self.client().get('/users/{}/tasks'.format(self.user_id))
+        res = self.client().get('/users/{}/tasks'.format(self.user_id), headers={'Authorization': TOKEN})
 
         data = json.loads(res.data)
 
