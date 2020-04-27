@@ -19,28 +19,25 @@ AUTH0_AUDIENCE = env.get("AUTH0_AUDIENCE")
 
 ALGORITHMS = ['RS256']
 
-login_url = "https://{}/authorize?audience={}&scope=offline_access&response_type=token&client_id={}&redirect_uri={}".format(AUTH0_DOMAIN,AUTH0_AUDIENCE,AUTH0_CLIENT_ID,AUTH0_CALLBACK_URL)
+login_url = "https://{}/authorize?audience={}&scope=offline_access&response_t\
+            ype=token&client_id={}&redirect_uri={}".format(
+                AUTH0_DOMAIN,
+                AUTH0_AUDIENCE,
+                AUTH0_CLIENT_ID,
+                AUTH0_CALLBACK_URL
+            )
 
-""" 
-curl --request POST \
-  --url 'https://YOUR_DOMAIN/oauth/token' \
-  --header 'content-type: application/x-www-form-urlencoded' \
-  --data 'grant_type=refresh_token&client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET&refresh_token=YOUR_REFRESH_TOKEN'
-"""
-'''
-AuthError Exception
-A standardized way to communicate auth failure modes
-'''
+
 class AuthError(Exception):
     def __init__(self, error, status_code):
         self.error = error
         self.status_code = status_code
 
 
-## Auth Header
 def get_token_auth_header():
+
     auth = request.headers.get('Authorization', None)
- 
+
     if not auth:
         raise AuthError({
             'code': 'authorization_header_missing',
@@ -48,6 +45,7 @@ def get_token_auth_header():
         }, 401)
 
     parts = auth.split()
+
     if parts[0].lower() != 'bearer':
         raise AuthError({
             'code': 'invalid_header',
@@ -69,7 +67,6 @@ def get_token_auth_header():
     token = parts[1]
     return token
 
-    #raise Exception('Not Implemented')
 
 def check_permissions(permission, payload):
     if 'permissions' not in payload:
@@ -85,6 +82,7 @@ def check_permissions(permission, payload):
         }, 401)
 
     return True
+
 
 def verify_decode_jwt(token):
     jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
@@ -128,20 +126,23 @@ def verify_decode_jwt(token):
         except jwt.JWTClaimsError:
             raise AuthError({
                 'code': 'invalid_claims',
-                'description': 'Incorrect claims. Please, check the audience and issuer.'
+                'description': 'Incorrect claims. Please, \
+                    check the audience and issuer.'
             }, 401)
         except Exception:
             raise AuthError({
                 'code': 'invalid_header',
                 'description': 'Unable to parse authentication token.'
             }, 400)
+
     raise AuthError({
                 'code': 'invalid_header',
                 'description': 'Unable to find the appropriate key.'
             }, 400)
-    #raise Exception('Not Implemented')
+
 
 def requires_auth(permission=''):
+
     def requires_auth_decorator(f):
         @wraps(f)
         def wrapper(*args, **kwargs):
@@ -151,4 +152,5 @@ def requires_auth(permission=''):
             return f(payload, *args, **kwargs)
 
         return wrapper
+
     return requires_auth_decorator

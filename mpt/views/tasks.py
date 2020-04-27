@@ -4,6 +4,7 @@ from mpt.auth import requires_auth
 from mpt.models.project import Project
 from mpt.views.base import insert, get_all, get_one, update, delete
 
+
 def setup_tasks(app):
 
     @app.route('/tasks')
@@ -12,47 +13,47 @@ def setup_tasks(app):
 
         task = Task.query
         return get_all(task, 'tasks')
-    
+
     @app.route('/tasks', methods=['POST'])
     @requires_auth('post:tasks')
     def add_task(jwt):
 
         data = request.get_json()
         project_id = data.get("project")
-        project = Project.query.filter_by(id = project_id).one_or_none()
+        project = Project.query.filter_by(id=project_id).one_or_none()
 
         if project is None:
             abort(422)
 
         new_task = Task(
-            name = data.get("name"),
-            description = data.get("description"),
-            status = data.get("status"),
-            project = project_id
+            name=data.get("name"),
+            description=data.get("description"),
+            status=data.get("status"),
+            project=project_id
         )
-        
+
         return insert(new_task)
 
     @app.route('/tasks/<id>', methods=["GET"])
     @requires_auth('get:tasks')
     def get_task_by_id(jwt, id):
 
-        task = Task.query.filter_by(id = id)
+        task = Task.query.filter_by(id=id)
         return get_one(task, "task")
-        
+
     @app.route('/tasks/<id>', methods=["PATCH"])
     @requires_auth('patch:task')
-    def update_tasks(jwt,id):
+    def update_tasks(jwt, id):
 
         data = request.get_json()
         project_id = data.get("project")
         assignee_id = data.get("assignee")
-        task = Task.query.filter_by(id = id).one_or_none()
+        task = Task.query.filter_by(id=id).one_or_none()
 
         if task is None:
             abort(404)
 
-        project = Project.query.filter_by(id = project_id).one_or_none()
+        project = Project.query.filter_by(id=project_id).one_or_none()
 
         if project is None:
             abort(422)
@@ -72,9 +73,9 @@ def setup_tasks(app):
 
     @app.route("/tasks/<id>", methods=["DELETE"])
     @requires_auth('delete:task')
-    def delete_task(jwt,id):
+    def delete_task(jwt, id):
 
-        task = Task.query.filter_by(id = id).one_or_none()
+        task = Task.query.filter_by(id=id).one_or_none()
 
         if task is None:
             abort(404)
@@ -83,9 +84,9 @@ def setup_tasks(app):
 
     @app.route("/tasks/<id>/activities")
     @requires_auth('get:activities')
-    def get_task_activities(jwt,id):
+    def get_task_activities(jwt, id):
 
-        task = Task.query.filter_by(id = id).one_or_none()
+        task = Task.query.filter_by(id=id).one_or_none()
 
         if task is None:
             abort(404)

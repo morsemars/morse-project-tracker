@@ -25,11 +25,10 @@ def setup_views(app):
     def auth_error_handler(error):
         print(error.status_code, error.error["description"])
         return jsonify({
-            "success": False, 
+            "success": False,
             "error": error.status_code,
             "message": error.error['description']
         }), error.status_code
-
 
     @app.errorhandler(404)
     def page_not_found(error):
@@ -38,7 +37,6 @@ def setup_views(app):
             "code": 404,
             "message": "Page Not Found"
         }), 404
-
 
     @app.errorhandler(422)
     def page_not_found(error):
@@ -63,5 +61,3 @@ def setup_views(app):
             "code": 500,
             "message": "Internal Server Error"
         }), 500
-
-    

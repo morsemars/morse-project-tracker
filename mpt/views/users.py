@@ -3,6 +3,7 @@ from mpt.models.user import User
 from mpt.auth import requires_auth
 from mpt.views.base import insert, get_all, get_one, update, delete
 
+
 def setup_users(app):
 
     @app.route('/users')
@@ -19,28 +20,28 @@ def setup_users(app):
         data = request.get_json()
 
         new_user = User(
-            first_name = data.get("first_name"),
-            last_name = data.get("last_name"),
-            position = data.get("position")
+            first_name=data.get("first_name"),
+            last_name=data.get("last_name"),
+            position=data.get("position")
         )
 
         return insert(new_user)
 
     @app.route('/users/<id>', methods=["GET"])
     @requires_auth('get:users')
-    def get_user_by_id(jwt,id):
+    def get_user_by_id(jwt, id):
 
-        user = User.query.filter_by(id = id)
+        user = User.query.filter_by(id=id)
 
         return get_one(user, "user")
 
     @app.route('/users/<id>', methods=["PATCH"])
     @requires_auth('patch:user')
-    def update_user(jwt,id):
+    def update_user(jwt, id):
 
         data = request.get_json()
 
-        user = User.query.filter_by(id = id).one_or_none()
+        user = User.query.filter_by(id=id).one_or_none()
 
         if user is None:
             abort(404)
@@ -55,7 +56,7 @@ def setup_users(app):
     @requires_auth('delete:user')
     def delete_user(jwt, id):
 
-        user = User.query.filter_by(id = id).one_or_none()
+        user = User.query.filter_by(id=id).one_or_none()
 
         if user is None:
             abort(404)
@@ -66,7 +67,7 @@ def setup_users(app):
     @requires_auth('get:projects')
     def get_user_projects(jwt, id):
 
-        user = User.query.filter_by(id = id).one_or_none()
+        user = User.query.filter_by(id=id).one_or_none()
 
         if user is None:
             abort(404)
@@ -80,9 +81,9 @@ def setup_users(app):
 
     @app.route('/users/<id>/tasks', methods=["GET"])
     @requires_auth('get:tasks')
-    def get_user_tasks(jwt,id):
+    def get_user_tasks(jwt, id):
 
-        user = User.query.filter_by(id = id).one_or_none()
+        user = User.query.filter_by(id=id).one_or_none()
 
         if user is None:
             abort(404)
@@ -93,5 +94,3 @@ def setup_users(app):
             'success': True,
             'tasks': tasks
         })
-
-        

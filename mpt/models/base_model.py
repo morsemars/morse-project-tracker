@@ -3,13 +3,14 @@ from sqlalchemy import Column, String, Integer, Text
 from sqlalchemy.ext.declarative import declarative_base
 from collections import OrderedDict
 
+
 class base_model(db.Model):
     __abstract__ = True
 
-    #common properties
+    # common properties
     id = db.Column(db.Integer, primary_key=True)
 
-    #common actions
+    # common actions
     def insert(self):
         db.session.add(self)
         db.session.commit()

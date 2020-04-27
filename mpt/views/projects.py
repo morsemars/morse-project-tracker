@@ -4,6 +4,7 @@ from mpt.models.user import User
 from mpt.auth import requires_auth
 from mpt.views.base import insert, get_all, get_one, update, delete
 
+
 def setup_projects(app):
 
     @app.route('/projects')
@@ -16,11 +17,10 @@ def setup_projects(app):
     @app.route('/projects', methods=["POST"])
     @requires_auth('post:projects')
     def add_new_project(jwt):
+
         data = request.get_json()
-
         manager_id = data.get("manager")
-
-        user = User.query.filter_by(id = manager_id).one_or_none()
+        user = User.query.filter_by(id=manager_id).one_or_none()
 
         if user is None:
             abort(422)
@@ -31,30 +31,30 @@ def setup_projects(app):
         print(data.get("manager"))
 
         new_project = Project(
-            name = data.get("name"),
-            description = data.get("description"),
-            manager = data.get("manager"),
-            status = data.get("status")
+            name=data.get("name"),
+            description=data.get("description"),
+            manager=data.get("manager"),
+            status=data.get("status")
         )
 
-        return insert(new_project) 
+        return insert(new_project)
 
     @app.route('/projects/<id>', methods=["GET"])
     @requires_auth('get:projects')
-    def get_project_by_id(jwt,id):
+    def get_project_by_id(jwt, id):
 
-        project = Project.query.filter_by(id = id)
+        project = Project.query.filter_by(id=id)
         return get_one(project, "project")
-    
+
     @app.route('/projects/<id>', methods=["PATCH"])
     @requires_auth('patch:project')
-    def update_project(jwt,id):
+    def update_project(jwt, id):
 
         data = request.get_json()
         assignees = data.get("assignees")
 
-        project = Project.query.filter_by(id = id).one_or_none()
-    
+        project = Project.query.filter_by(id=id).one_or_none()
+
         if project is None:
             abort(404)
 
@@ -72,7 +72,7 @@ def setup_projects(app):
     @requires_auth('delete:project')
     def delete_project(jwt, id):
 
-        project = Project.query.filter_by(id = id).one_or_none()
+        project = Project.query.filter_by(id=id).one_or_none()
 
         if project is None:
             abort(404)
@@ -83,8 +83,8 @@ def setup_projects(app):
     @requires_auth('get:tasks')
     def get_project_tasks(jwt, id):
 
-        project = Project.query.filter_by(id = id).one_or_none()
- 
+        project = Project.query.filter_by(id=id).one_or_none()
+
         if project is None:
             abort(404)
 

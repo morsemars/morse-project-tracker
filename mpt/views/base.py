@@ -1,12 +1,13 @@
 from flask import jsonify, request, abort
 from mpt.models import db
 
+
 def insert(model):
     isSuccessful = True
 
     try:
         model.insert()
-    except:
+    except e:
         db.session.rollback()
         isSuccessful = False
     finally:
@@ -18,8 +19,9 @@ def insert(model):
         else:
             abort(422)
 
+
 def get_all(model, return_list_name):
-    
+
     data = model.all()
 
     if data is None:
@@ -30,24 +32,26 @@ def get_all(model, return_list_name):
         return_list_name: [row._asdict() for row in data]
     })
 
+
 def get_one(model, return_result_name):
-    
+
     data = model.one_or_none()
 
     if data is None:
-            abort(404)
+        abort(404)
 
     return jsonify({
         'success': True,
         return_result_name: data._asdict()
     })
 
+
 def update(model, return_result_name):
     isSuccessful = True
 
     try:
         model.update()
-    except:
+    except e:
         db.session.rollback()
         isSuccessful = False
     finally:
@@ -59,12 +63,13 @@ def update(model, return_result_name):
         else:
             abort(422)
 
+
 def delete(model):
     isSuccessful = True
 
     try:
         model.delete()
-    except:
+    except e:
         db.session.rollback()
         isSuccessful = False
     finally:
