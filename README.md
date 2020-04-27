@@ -55,10 +55,14 @@ After installing Flask globally, follow the instructions below:
 4. Go to http://127.0.0.1:5000/
 
 ## Database Setup
-With Postgres running, populate the database using the mpt.psql file provided and then run the following command:
-```
-$ psql project_tracker < mpt.psql
-```
+1. Create database tables.
+    ```
+    $ python3 manage_db.py db migrate
+    ```
+2. Populate database with test values.
+    ```
+    $ psql project_tracker < mpt.psql
+    ```
 
 ## Testing the Application
 On the root directory, run the following commands:
@@ -74,80 +78,49 @@ $ python3 -m unittest discover tests -p *_test.py -v
 
 ### Users
 
-GET /users
-- Fetches the list of users currently registered in the application.
-- Permission: "get:users"
-- Returns: 
-```
+| API Endpoint | URL Parameters | Data Parameters | Description | Permissions |
+| --- | --- | --- | --- | --- |
+| GET /users | | | Fetches the list of users currently registered. | get:users |
+| POST /users | | _first_name_: String <br> _last_name_: String <br> _position_: String -  Manager or Developer  | Registers a new user as a Manager or Developer. | post:users |
+| GET /users/:id | | | Fetches  the user details| get:users |
+| PATCH /users/id | | _first_name_: String <br> _last_name_: String <br> _position_: String -  Manager or Developer   | Updates user details. | patch:user |
+| DELETE /users/:id | | | Deletes a user. | delete:user |
+| GET /users/:id/projects  | | | Fetches the list of projects the user has been assigned to. | get:projects |
+| GET /users/:id/tasks  | | | Fetches the list of tasks the user is handling. | get:tasks |
 
-```
-
-POST /users
-- Permission: "post:users"
-
-GET /users/{id}
-- Permission: "get:users"
-
-PATCH /users/{id}
-- Permission: "patch:users"
-
-DELETE /users/{id}
-- Permission: "delete:users"
-
-GET users/{id}/projects
-- Fetches all the projects where the user is assigned.
-- Permission: "get:projects"
-
-GET users/{id}/tasks
-- Fetches all the task assigned to the user.
 
 ### Projects
 
-GET /projects
-- Fetches a list of registered projects.
-- Request Arguments: None
+| API Endpoint | URL Parameters | Data Parameters | Description | Permissions |
+| --- | --- | --- | --- | --- |
+| GET /projects | | | Fetches all projects. | get:projects |
+| POST /projects | | _name_: String <br> _description_: String <br> _manager_: Integer - id of the manager <br> _status_: String <br> _assignees_: [Integer] - list of developer ids | Add a new project. | post:projects |
+| GET /projects/:id | | | Fetches  the project details| get:projects |
+| PATCH /projects/:id | |  _name_: String <br> _description_: String <br> _manager_: Integer - id of the manager <br> _status_: String <br> _assignees_: [Integer] - list of developer ids | Updates project details. | patch:project |
+| DELETE /projects/:id | | | Deletes a project. | delete:project |
+| GET /projects/:id/tasks | | | Fetches  the tasks of a project | get:tasks |
 
-- Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
-
-POST /projects
-
-GET /projects/{id}
-
-PATCH /projects/{id}
-
-DELETE /projects/{id}
 
 ### Tasks
 
-GET /tasks
-- Fetches all tasks
-- Request Arguments: None
-- Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
-
-POST /tasks
-
-GET /tasks/{id}
-
-PATCH /tasks/{id}
-
-DELETE /tasks/{id}
+| API Endpoint | URL Parameters | Data Parameters | Description | Permissions |
+| --- | --- | --- | --- | --- |
+| GET /tasks | | | Fetches all tasks. | get:tasks |
+| POST /tasks | | _name_: String <br> _description_: String <br> _status_: String <br> _project_: Integer - project id <br> _assignee_: Integer - user id of the developer assigned. | Add a new task. | post:tasks |
+| GET /tasks/:id | | | Fetches  the task details| get:tasks |
+| PATCH /tasks/:id | | _name_: String <br> _description_: String <br> _status_: String <br> _project_: Integer - project id <br> _assignee_: Integer - user id of the developer assigned. | Updates task details. | patch:task |
+| DELETE /tasks/:id | | | Deletes a task. | delete:task |
+| GET /tasks/:id/activities | | | Fetches  the task details| get:activities |
 
 ### Activities
 
-GET /activities
-- Fetches a list of activities.
-- Request Arguments: None
-
-- Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
-
-POST /activities
-
-GET /activities/{id}
-
-PATCH /activities/{id}
-
-DELETE /activities/{id}
-
+| API Endpoint | URL Parameters | Data Parameters | Description | Permissions |
+| --- | --- | --- | --- | --- |
+| GET /activities | | | Fetches all activities. | get:activities |
+| POST /activities | | _task_id_: Intger <br> _description_: String - activity description <br> _hours_:Integer | Add a new activity. | post:activities |
+| GET /activities/:id | | | Fetches  the activity details| get:activities |
+| PATCH /activities/:id | | _description_: String - activity description <br> _hours_:Integer | Updates activity details. | patch:activity |
+| DELETE /activities/:id | | | Deletes a activity. | delete:activity |
 
 
 
