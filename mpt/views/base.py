@@ -7,7 +7,7 @@ def insert(model):
 
     try:
         model.insert()
-    except e:
+    except Exception:
         db.session.rollback()
         isSuccessful = False
     finally:
@@ -51,7 +51,7 @@ def update(model, return_result_name):
 
     try:
         model.update()
-    except e:
+    except Exception:
         db.session.rollback()
         isSuccessful = False
     finally:
@@ -69,7 +69,7 @@ def delete(model):
 
     try:
         model.delete()
-    except e:
+    except Exception:
         db.session.rollback()
         isSuccessful = False
     finally:

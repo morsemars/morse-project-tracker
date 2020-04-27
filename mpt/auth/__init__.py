@@ -20,12 +20,12 @@ AUTH0_AUDIENCE = env.get("AUTH0_AUDIENCE")
 ALGORITHMS = ['RS256']
 
 login_url = "https://{}/authorize?audience={}&scope=offline_access&response_t\
-            ype=token&client_id={}&redirect_uri={}".format(
-                AUTH0_DOMAIN,
-                AUTH0_AUDIENCE,
-                AUTH0_CLIENT_ID,
-                AUTH0_CALLBACK_URL
-            )
+ype=token&client_id={}&redirect_uri={}".format(
+    AUTH0_DOMAIN,
+    AUTH0_AUDIENCE,
+    AUTH0_CLIENT_ID,
+    AUTH0_CALLBACK_URL
+)
 
 
 class AuthError(Exception):
