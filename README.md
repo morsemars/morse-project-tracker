@@ -81,9 +81,9 @@ $ python3 -m unittest discover tests -p *_test.py -v
 | API Endpoint | URL Parameters | Data Parameters | Description | Permissions |
 | --- | --- | --- | --- | --- |
 | GET /users | | | Fetches the list of users currently registered. | get:users |
-| POST /users | | _first_name_: String <br> _last_name_: String <br> _position_: String -  Manager or Developer  | Registers a new user as a Manager or Developer. | post:users |
+| POST /users | | ___first_name__: String <br> __last_name__: String <br> __position__: String -  Manager or Developer  | Registers a new user as a Manager or Developer. | post:users |
 | GET /users/:id | | | Fetches  the user details| get:users |
-| PATCH /users/id | | _first_name_: String <br> _last_name_: String <br> _position_: String -  Manager or Developer   | Updates user details. | patch:user |
+| PATCH /users/id | | __first_name__: String <br> ___last_name__: String <br> __position__: String -  Manager or Developer   | Updates user details. | patch:user |
 | DELETE /users/:id | | | Deletes a user. | delete:user |
 | GET /users/:id/projects  | | | Fetches the list of projects the user has been assigned to. | get:projects |
 | GET /users/:id/tasks  | | | Fetches the list of tasks the user is handling. | get:tasks |
@@ -94,9 +94,9 @@ $ python3 -m unittest discover tests -p *_test.py -v
 | API Endpoint | URL Parameters | Data Parameters | Description | Permissions |
 | --- | --- | --- | --- | --- |
 | GET /projects | | | Fetches all projects. | get:projects |
-| POST /projects | | _name_: String <br> _description_: String <br> _manager_: Integer - id of the manager <br> _status_: String <br> _assignees_: [Integer] - list of developer ids | Add a new project. | post:projects |
+| POST /projects | | __name__: String <br> __description__: String <br> __manager__: Integer - id of the manager <br> __status__: String <br> __assignees__: [Integer] - list of developer ids | Add a new project. | post:projects |
 | GET /projects/:id | | | Fetches  the project details| get:projects |
-| PATCH /projects/:id | |  _name_: String <br> _description_: String <br> _manager_: Integer - id of the manager <br> _status_: String <br> _assignees_: [Integer] - list of developer ids | Updates project details. | patch:project |
+| PATCH /projects/:id | |  __name__: String <br> __description__: String <br> __manager__: Integer - id of the manager <br> __status__: String <br> __assignees__: [Integer] - list of developer ids | Updates project details. | patch:project |
 | DELETE /projects/:id | | | Deletes a project. | delete:project |
 | GET /projects/:id/tasks | | | Fetches  the tasks of a project | get:tasks |
 
@@ -106,9 +106,9 @@ $ python3 -m unittest discover tests -p *_test.py -v
 | API Endpoint | URL Parameters | Data Parameters | Description | Permissions |
 | --- | --- | --- | --- | --- |
 | GET /tasks | | | Fetches all tasks. | get:tasks |
-| POST /tasks | | _name_: String <br> _description_: String <br> _status_: String <br> _project_: Integer - project id <br> _assignee_: Integer - user id of the developer assigned. | Add a new task. | post:tasks |
+| POST /tasks | | __name__: String <br> __description__: String <br> __status__: String <br> __project__: Integer - project id <br> __assignee__: Integer - user id of the developer assigned. | Add a new task. | post:tasks |
 | GET /tasks/:id | | | Fetches  the task details| get:tasks |
-| PATCH /tasks/:id | | _name_: String <br> _description_: String <br> _status_: String <br> _project_: Integer - project id <br> _assignee_: Integer - user id of the developer assigned. | Updates task details. | patch:task |
+| PATCH /tasks/:id | | __name__: String <br> __description__: String <br> __status__: String <br> __project__: Integer - project id <br> __assignee__: Integer - user id of the developer assigned. | Updates task details. | patch:task |
 | DELETE /tasks/:id | | | Deletes a task. | delete:task |
 | GET /tasks/:id/activities | | | Fetches  the task details| get:activities |
 
@@ -117,9 +117,9 @@ $ python3 -m unittest discover tests -p *_test.py -v
 | API Endpoint | URL Parameters | Data Parameters | Description | Permissions |
 | --- | --- | --- | --- | --- |
 | GET /activities | | | Fetches all activities. | get:activities |
-| POST /activities | | _task_id_: Intger <br> _description_: String - activity description <br> _hours_:Integer | Add a new activity. | post:activities |
+| POST /activities | | __task_id__: Intger <br> __description__: String - activity description <br> __hours__:Integer | Add a new activity. | post:activities |
 | GET /activities/:id | | | Fetches  the activity details| get:activities |
-| PATCH /activities/:id | | _description_: String - activity description <br> _hours_:Integer | Updates activity details. | patch:activity |
+| PATCH /activities/:id | | __description__: String - activity description <br> __hours__:Integer | Updates activity details. | patch:activity |
 | DELETE /activities/:id | | | Deletes a activity. | delete:activity |
 
 
