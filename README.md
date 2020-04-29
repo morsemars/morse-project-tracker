@@ -100,7 +100,13 @@ On the root directory, run the following commands:
 ### Postman 
 
 1. On postman, import mpt.postman.json
-2. Click Runner, select mpt then click "Run mpt"
+2. Login to the Application: http://127.0.0.1:5000/login, then update bearer token.
+
+    - Login as a Manager, then edit the ___Manager___ folder. Set the Type as _Bearer Token_ on the Authorization tab and then paste the token.
+
+    - Login as a Developer, then edit the ___Developer___ folder. Set the Type as _Bearer Token_ on the Authorization tab and then paste the token.
+
+3. Click Runner, select mpt then click "Run mpt"
 
     __NOTE__: You can update the "host" variable in the collection to test your local setup.
 
