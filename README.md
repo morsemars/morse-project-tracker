@@ -43,7 +43,13 @@ After installing Flask globally, follow the instructions below:
 
     `pip install -r requirements.txt`
 
-3. Run the development server.
+3. Setup Auth0
+    - create an .env file and fill with your own Auth0 details. (Please see .env.example)
+    - create roles Manager and Developer. The permissions are listed in the [Roles](#Roles) section below.
+
+4. Setup Database. (See [Database Setup](#database-setup))
+
+4. Run the development server.
 
     `./start_dev.sh`
 
@@ -54,7 +60,7 @@ After installing Flask globally, follow the instructions below:
     export FLASK_ENV=development
     flask run
     ```
-4. Go to http://127.0.0.1:5000/
+5. Go to http://127.0.0.1:5000/
 
 ## Database Setup
 1. Create database tables.
@@ -92,16 +98,30 @@ On the root directory, run the following commands:
 ## Roles
 
 1. Developer
-    - GET: projects, tasks, activities, users
-    - POST: activities
-    - PATCH: activities, tasks
-    - DELETE: activities
+
+    - get:projects
+    - get:tasks
+    - get:activities
+    - get:users
+    - post:activities
+    - patch:activities
+    - patch:tasks
+    - delete:activities
 
 2. Manager
-    - GET: projects, tasks, activities, users
-    - POST: projects, tasks, users
-    - PATCH: projects, tasks, users
-    - DELETE: projects, tasks, users
+    - get:projects
+    - get:tasks,
+    - get:activities
+    - get:users
+    - post:projects
+    - post:tasks
+    - post:users
+    - patch:projects
+    - patch:tasks
+    - patch:users
+    - delete:projects
+    - delete:tasks
+    - delete:users
 
 ## API Endpoints
 
@@ -112,7 +132,7 @@ On the root directory, run the following commands:
 | GET /users | | | Fetches the list of users currently registered. |
 | POST /users | | __first_name__: String <br> __last_name__: String <br> __position__: String -  Manager or Developer  | Registers a new user as a Manager or Developer. |
 | GET /users/:id | | | Fetches  the user details|
-| PATCH /users/id | | __first_name__: String <br> ___last_name__: String <br> __position__: String -  Manager or Developer   | Updates user details. |
+| PATCH /users/id | | __first_name__: String <br> __last_name__: String <br> __position__: String -  Manager or Developer   | Updates user details. |
 | DELETE /users/:id | | | Deletes a user. |
 | GET /users/:id/projects  | | | Fetches the list of projects the user has been assigned to. |
 | GET /users/:id/tasks  | | | Fetches the list of tasks the user is handling. |
@@ -146,9 +166,9 @@ On the root directory, run the following commands:
 | API Endpoint | URL Parameters | Data Parameters | Description |
 | --- | --- | --- | --- |
 | GET /activities | | | Fetches all activities. |
-| POST /activities | | __task_id__: Intger <br> __description__: String - activity description <br> __hours__:Integer | Add a new activity. |
+| POST /activities | | __task_id__: Intger <br> __description__: String - activity description <br> __hours__: Integer | Add a new activity. |
 | GET /activities/:id | | | Fetches  the activity details|
-| PATCH /activities/:id | | __description__: String - activity description <br> __hours__:Integer | Updates activity details. |
+| PATCH /activities/:id | | __description__: String - activity description <br> __hours__: Integer | Updates activity details. |
 | DELETE /activities/:id | | | Deletes a activity. |
 
 
