@@ -23,7 +23,6 @@ def setup_views(app):
 
     @app.errorhandler(AuthError)
     def auth_error_handler(error):
-        print(error.status_code, error.error["description"])
         return jsonify({
             "success": False,
             "error": error.status_code,

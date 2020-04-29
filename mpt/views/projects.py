@@ -19,8 +19,15 @@ def setup_projects(app):
     def add_new_project(jwt):
 
         data = request.get_json()
+
         manager_id = data.get("manager")
+        assignees = data.get("assignees")
         user = User.query.filter_by(id=manager_id).one_or_none()
+
+        if assignees:
+            new_assigness = User.query.filter(User.id.in_(assignees)).all()
+        else:
+            new_assignees = []
 
         if user is None:
             abort(422)
@@ -34,7 +41,8 @@ def setup_projects(app):
             name=data.get("name"),
             description=data.get("description"),
             manager=data.get("manager"),
-            status=data.get("status")
+            status=data.get("status"),
+            assignees=new_assignees
         )
 
         return insert(new_project)

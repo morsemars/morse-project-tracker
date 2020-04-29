@@ -19,8 +19,16 @@ def setup_tasks(app):
     def add_task(jwt):
 
         data = request.get_json()
+
         project_id = data.get("project")
+        assignee_id = data.get("assignee")
+
         project = Project.query.filter_by(id=project_id).one_or_none()
+
+        if assignee_id:
+            assignees = [assignee.id for assignee in project.assignees]
+            if assignee_id not in assignees:
+                abort(422)
 
         if project is None:
             abort(422)
@@ -29,7 +37,8 @@ def setup_tasks(app):
             name=data.get("name"),
             description=data.get("description"),
             status=data.get("status"),
-            project=project_id
+            project=project_id,
+            assignee=assignee_id
         )
 
         return insert(new_task)
