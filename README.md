@@ -73,6 +73,8 @@ After installing Flask globally, follow the instructions below:
     ```
 
 ## Testing the Application
+
+### Python Unit Test
 On the root directory, run the following commands:
 
 1. Login to the Application: http://127.0.0.1:5000/login, then copy the token to config.py inside the tests folder.
@@ -94,6 +96,13 @@ On the root directory, run the following commands:
     psql mpt_test < mpt.psql
     python3 -m unittest discover tests -p *_test.py -v
     ```
+
+### Postman 
+
+1. On postman, import mpt.postman.json
+2. Click Runner, select mpt then click "Run mpt"
+
+    __NOTE__: You can update the "host" variable in the collection to test your local setup.
 
 ## Roles
 
