@@ -47,7 +47,7 @@ def setup_projects(app):
         return get_one(project, "project")
 
     @app.route('/projects/<id>', methods=["PATCH"])
-    @requires_auth('patch:project')
+    @requires_auth('patch:projects')
     def update_project(jwt, id):
 
         data = request.get_json()
@@ -69,7 +69,7 @@ def setup_projects(app):
         return update(project, "project")
 
     @app.route("/projects/<id>", methods=["DELETE"])
-    @requires_auth('delete:project')
+    @requires_auth('delete:projects')
     def delete_project(jwt, id):
 
         project = Project.query.filter_by(id=id).one_or_none()

@@ -14,7 +14,7 @@ def setup_users(app):
         return get_all(users, 'users')
 
     @app.route('/users', methods=["POST"])
-    @requires_auth('post:user')
+    @requires_auth('post:users')
     def add_new_user(jwt):
 
         data = request.get_json()
@@ -36,7 +36,7 @@ def setup_users(app):
         return get_one(user, "user")
 
     @app.route('/users/<id>', methods=["PATCH"])
-    @requires_auth('patch:user')
+    @requires_auth('patch:users')
     def update_user(jwt, id):
 
         data = request.get_json()
@@ -53,7 +53,7 @@ def setup_users(app):
         return update(user, "user")
 
     @app.route("/users/<id>", methods=["DELETE"])
-    @requires_auth('delete:user')
+    @requires_auth('delete:users')
     def delete_user(jwt, id):
 
         user = User.query.filter_by(id=id).one_or_none()

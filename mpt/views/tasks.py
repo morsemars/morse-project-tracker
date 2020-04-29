@@ -42,7 +42,7 @@ def setup_tasks(app):
         return get_one(task, "task")
 
     @app.route('/tasks/<id>', methods=["PATCH"])
-    @requires_auth('patch:task')
+    @requires_auth('patch:tasks')
     def update_tasks(jwt, id):
 
         data = request.get_json()
@@ -72,7 +72,7 @@ def setup_tasks(app):
         return update(task, 'task')
 
     @app.route("/tasks/<id>", methods=["DELETE"])
-    @requires_auth('delete:task')
+    @requires_auth('delete:tasks')
     def delete_task(jwt, id):
 
         task = Task.query.filter_by(id=id).one_or_none()

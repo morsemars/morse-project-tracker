@@ -14,7 +14,7 @@ def setup_activities(app):
         return get_all(activities, 'activities')
 
     @app.route('/activities', methods=['POST'])
-    @requires_auth('post:activity')
+    @requires_auth('post:activities')
     def add_activity(jwt):
 
         data = request.get_json()
@@ -35,7 +35,7 @@ def setup_activities(app):
         return get_one(activity, "activity")
 
     @app.route('/activities/<id>', methods=["PATCH"])
-    @requires_auth('patch:activity')
+    @requires_auth('patch:activities')
     def update_activities(jwt, id):
 
         data = request.get_json()
@@ -50,7 +50,7 @@ def setup_activities(app):
         return update(activity, 'activity')
 
     @app.route("/activities/<id>", methods=["DELETE"])
-    @requires_auth('delete:activity')
+    @requires_auth('delete:activities')
     def delete_activity(jwt, id):
 
         activity = Activity.query.filter_by(id=id).one_or_none()
