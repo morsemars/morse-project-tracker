@@ -10,8 +10,8 @@ class UserRoleTestCase(unittest.TestCase):
     def setUp(self):
         self.client = app.test_client
 
-        task = Task.query.order_by(Task.id).first()
-        user = User.query.order_by(User.id).first()
+        task = Task.query.first()
+        user = User.query.order_by(User.id.desc()).first()
 
         self.new_user = {
                 "first_name": "Test",
@@ -105,7 +105,6 @@ class UserRoleTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertTrue(data['created'])
 
 
 if __name__ == "__main__":
