@@ -1,0 +1,1559 @@
+{
+	"info": {
+		"_postman_id": "89c9f857-46b0-46f4-9d4d-eb8fa9ad0a46",
+		"name": "mpt",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Developer",
+			"item": [
+				{
+					"name": "projects",
+					"item": [
+						{
+							"name": "/projects",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "db13f144-27d6-4411-a4e7-036030286615",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains projects array\", function () {",
+											"    ",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData.projects).to.be.an('array')",
+											"    ",
+											"    const lastIndex = jsonData.projects.length - 1;",
+											"",
+											"    pm.environment.set(\"project_id\", jsonData.projects[lastIndex].id);",
+											"    ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/projects",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"projects"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/projects",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d467590f-2d31-4881-bb69-61dfbc13b365",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/projects",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"projects"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/projects",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1d25dec4-86cc-4b20-95e3-1efef9dac653",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/projects/{{project_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"projects",
+										"{{project_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/projects",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9104fb25-1c35-42be-ac3d-565cdbd4c36b",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/projects/{{project_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"projects",
+										"{{project_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "tasks",
+					"item": [
+						{
+							"name": "/tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "00d6cc59-4452-4224-be0d-6e7a1d30c4b8",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains tasks array\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.tasks).to.be.an('array')",
+											"    ",
+											"    const lastIndex = jsonData.tasks.length - 1;",
+											"    const task = jsonData.tasks[lastIndex];",
+											"",
+											"    pm.environment.set(\"task_id\", task.id);",
+											"    pm.environment.set(\"user_id\", task.assignee);",
+											"    pm.environment.set(\"project_id\", task.project);",
+											"    ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/tasks",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"tasks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "05aba8b4-9ee8-4c56-afae-32b7a6625928",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/tasks",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"tasks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7d19708e-65cb-4742-816a-8537500b0799",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains task object\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.task).to.be.an('object')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"UPDATED Test Task\",\r\n    \"description\": \"This is the description for the task UPDATED.\",\r\n    \"status\": \"created\",\r\n    \"project\": {{project_id}},\r\n    \"assignee\": {{user_id}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/tasks/{{task_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"tasks",
+										"{{task_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e272caa2-4e91-42c3-b484-a48ff9e4b51a",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"UPDATED Test Task\",\r\n    \"description\": \"This is the description for the task UPDATED.\",\r\n    \"status\": \"created\",\r\n    \"project\": {{project_id}},\r\n    \"assignee\": {{user_id}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/tasks/{{task_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"tasks",
+										"{{task_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "activities",
+					"item": [
+						{
+							"name": "/activities",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "07b36c74-f3fd-4113-822f-88d583495901",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains activities array\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData.activities).to.be.an('array')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/activities",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"activities"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/activities",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9d6c6917-06f2-4d85-9031-02104ae101cf",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains new activity id\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.created).to.be.an('number')",
+											"    pm.environment.set(\"activity_id\", jsonData.created);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"description\": \"Activity description here.\",\r\n    \"hours\": 1,\r\n    \"task_id\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/activities",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"activities"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/activities",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d3941eed-c997-48e8-b9ef-ace2296e8139",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains updated activity\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.activity).to.be.an('object')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"description\": \"Updated activity description\",\r\n    \"hours\": 1,\r\n    \"task_id\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/activities/{{activity_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"activities",
+										"{{activity_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/activities",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d2e489d9-5eeb-4851-84da-c3ba94ce0827",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/activities/{{activity_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"activities",
+										"{{activity_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "/users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "083675d3-dda9-46e5-b6e5-ac4004804630",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains users array\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.users).to.be.an('array')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/users",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "05b64f58-1875-485e-8634-cbb8c1f618c0",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4c2e0680-f9fa-4c31-913e-621d40206393",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/users/{{user_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"{{user_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "cd8b409c-46b2-47ba-aa22-b7e2e79d9075",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/users/{{user_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"{{user_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1UVTFNMFk1TlVVd1F6bEROVFJDTmpBd016azVRVEl4TnpsRVFrWXlNVFV3TXpkR1FUazNNdyJ9.eyJpc3MiOiJodHRwczovL21vcnNlLWRldi5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWVhMjkyNjQ1ZGZjN2UwYzY0YTA0NmU4IiwiYXVkIjoicHJvamVjdHMiLCJpYXQiOjE1ODgxNTA0NTUsImV4cCI6MTU4ODE1NzY1NSwiYXpwIjoidXlwazZUbzk1VEdSbmFHYnRoMWxQdlNiTW1jc0RRWWUiLCJzY29wZSI6Im9mZmxpbmVfYWNjZXNzIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFjdGl2aXRpZXMiLCJnZXQ6YWN0aXZpdGllcyIsImdldDpwcm9qZWN0cyIsImdldDp0YXNrcyIsImdldDp1c2VycyIsInBhdGNoOmFjdGl2aXRpZXMiLCJwYXRjaDp0YXNrcyIsInBvc3Q6YWN0aXZpdGllcyJdfQ.OVfYkSVzS2ZlAkSXB4pDnvQez7XClpsvDm1IpeQT1xDDSkn7LJ6x-TaJThnuJuyKtHU070L9sAEnvB_eiXmLi2bPjsX1b-o863odd9TuLk87kQdAl8yWlNbtmKuD6QNK3jiH8-OZzQNiLA_ofq9Vi_l6LLIXl3aDp_jkUdSyHJs5gWd98ItMNB5H8_gW0jT4CvA6_ZBaH8R5x35Ofv0SFtM6pivhhKtrzFHqnxXcVFIGsOC8nHJkSifUI7q4P55Cc7cgcwkhUw7ZZhCE33C1ctR5JqxB3vz1XKQ4zFbNoD2RSQy5pl0jk85_jrJfUj98h7aMcIAHsppOuNcwUkncPg",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ccb9005a-d047-4969-8fe2-910f7d5b0f45",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "b643cc97-cf29-44d7-86e7-5a6a2d722072",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Manager",
+			"item": [
+				{
+					"name": "projects",
+					"item": [
+						{
+							"name": "/projects",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1f131f01-55a6-42f2-8fd9-4658b4c3bf67",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains projects array\", function () {",
+											"    ",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData.projects).to.be.an('array')",
+											"    ",
+											"    const lastIndex = jsonData.projects.length - 1;",
+											"",
+											"    pm.environment.set(\"project_id\", jsonData.projects[lastIndex].id);",
+											"    ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/projects",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"projects"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/projects",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c4adb37a-7e0d-4588-8dfb-9531759995e1",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains new project id\", function () {",
+											"    ",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData.created).to.be.an('number')",
+											"    pm.environment.set(\"project_id\", jsonData.created);",
+											"    ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Test Project\",\r\n    \"description\": \"This is the description for the project.\",\r\n    \"manager\": 1,\r\n    \"status\": \"ongoing\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/projects",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"projects"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/projects",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1b37fd6d-992b-4226-8c5f-8287a58597cb",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains updated project\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.project).to.be.an('object')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"UPDATED Test Project\",\r\n    \"description\": \"UPDATED DECSRIPTION\",\r\n    \"manager\": 1,\r\n    \"status\": \"ongoing\",\r\n    \"assignees\": [2,3]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/projects/{{project_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"projects",
+										"{{project_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/projects",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "54a4d697-e03e-4bcb-b1b9-9342e864edc5",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/projects/{{project_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"projects",
+										"{{project_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "8343c7d1-34c5-402c-974d-0bdb6582aa1c",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "a37350e6-41dd-43f8-98bf-867a891a05c2",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "tasks",
+					"item": [
+						{
+							"name": "/tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5acfd912-42e6-4fa5-998b-f3c324629488",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains tasks array\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.tasks).to.be.an('array')",
+											"    ",
+											"    const lastIndex = jsonData.tasks.length - 1;",
+											"    const task = jsonData.tasks[lastIndex];",
+											"",
+											"    pm.environment.set(\"task_id\", task.id);",
+											"    pm.environment.set(\"user_id\", task.assignee);",
+											"    pm.environment.set(\"project_id\", task.project);",
+											"    ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/tasks",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"tasks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a97bcc1c-89a2-48ea-86f2-bb31d1d84a66",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains new task id\", function () {",
+											"    ",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData.created).to.be.an('number')",
+											"    pm.environment.set(\"task_id\", jsonData.created);",
+											"    ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"New Task\",\r\n    \"description\": \"This is the description for the task.\",\r\n    \"status\": \"created\",\r\n    \"project\": {{project_id}},\r\n    \"assignee\": {{user_id}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/tasks",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"tasks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a5d2b1da-ad4c-4bdf-a9bd-37f7449f3a06",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains task object\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.task).to.be.an('object')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"UPDATED Test Task\",\r\n    \"description\": \"This is the description for the task UPDATED.\",\r\n    \"status\": \"created\",\r\n    \"project\": {{project_id}},\r\n    \"assignee\": {{user_id}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/tasks/{{task_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"tasks",
+										"{{task_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/tasks",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2ec50f08-41c9-4d90-a255-ffaa5461e69e",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"UPDATED Test Task\",\r\n    \"description\": \"This is the description for the task UPDATED.\",\r\n    \"status\": \"created\",\r\n    \"project\": {{project_id}},\r\n    \"assignee\": {{user_id}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/tasks/{{task_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"tasks",
+										"{{task_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "128828ab-c5f5-438c-96de-f39f115c4461",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "5cd0c634-1d71-49ef-9a1e-cd17bdfb2f0b",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "activities",
+					"item": [
+						{
+							"name": "/activities",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a5e00ddf-9597-4d15-818a-5a2a9341cfd3",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains activities array\", function () {",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData.activities).to.be.an('array')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/activities",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"activities"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/activities",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8002f46c-11b5-4861-a235-4cbfb1611d81",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/activities",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"activities"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/activities",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "474c56cb-2e3a-48dd-b926-42add66dff32",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"description\": \"Updated activity description\",\r\n    \"hours\": 1,\r\n    \"task_id\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/activities/{{activity_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"activities",
+										"{{activity_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/activities",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8c0a40ad-fb15-463e-9adb-eb9b03f39ac9",
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {",
+											"    pm.response.to.have.status(401);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/activities/{{activity_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"activities",
+										"{{activity_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "69b8dba3-b4c7-42aa-9e88-382b281842c8",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "c6d90453-07c7-478d-87ea-18479dc8aaa1",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "/users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "07ec0cf2-9aa5-4065-92a5-6a3c49bfd1e2",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains users array\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.users).to.be.an('array')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/users",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7acf4f56-80c0-4d8d-bbd2-167aad8eade3",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains new user id\", function () {",
+											"    ",
+											"    const jsonData = pm.response.json();",
+											"    pm.expect(jsonData.created).to.be.an('number')",
+											"    pm.environment.set(\"user_id\", jsonData.created);",
+											"    ",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"first_name\": \"Test\",\r\n    \"last_name\": \"User\",\r\n    \"position\": \"Developer\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f2a08455-0829-4f9e-9362-3ca8738201d3",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"",
+											"pm.test(\"value contains task object\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.user).to.be.an('object')",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"first_name\": \"UPDATED TEST\",\r\n    \"last_name\": \"User\",\r\n    \"position\": \"Developer\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/users/{{user_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"{{user_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/users",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "ff3d74d1-8409-430c-9dbf-286c14a3abaf",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/users/{{user_id}}",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"users",
+										"{{user_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5f35fff7-6473-4ea5-ab2c-bfc644fa6931",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "820958a2-0154-4666-8f57-ac33a0d199d7",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1UVTFNMFk1TlVVd1F6bEROVFJDTmpBd016azVRVEl4TnpsRVFrWXlNVFV3TXpkR1FUazNNdyJ9.eyJpc3MiOiJodHRwczovL21vcnNlLWRldi5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWVhMjdjYWMzOTBhNzMwYzhhNGUyZmQ3IiwiYXVkIjoicHJvamVjdHMiLCJpYXQiOjE1ODgxNTAzNDksImV4cCI6MTU4ODE1NzU0OSwiYXpwIjoidXlwazZUbzk1VEdSbmFHYnRoMWxQdlNiTW1jc0RRWWUiLCJzY29wZSI6Im9mZmxpbmVfYWNjZXNzIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOnByb2plY3RzIiwiZGVsZXRlOnRhc2tzIiwiZGVsZXRlOnVzZXJzIiwiZ2V0OmFjdGl2aXRpZXMiLCJnZXQ6cHJvamVjdHMiLCJnZXQ6dGFza3MiLCJnZXQ6dXNlcnMiLCJwYXRjaDpwcm9qZWN0cyIsInBhdGNoOnRhc2tzIiwicGF0Y2g6dXNlcnMiLCJwb3N0OnByb2plY3RzIiwicG9zdDp0YXNrcyIsInBvc3Q6dXNlcnMiXX0.S4C5Deq46Xek8tHEsvk5L0ylo6I3gnld85M7fY3LnJ06GcE4mrxzkODvU5Iv9tnSjmrbGgeCTmxFXBPLUsUUVNo5qLfBZQl9EEULBtqA3pw9YIRprQA2sQ3mpbEeo-ZRSiFbmvrikYo6zB3oPelpsT8BJv8HturIDEMUm2xtY7FLc2D8qrwN35I3WcYYQK36h4XNzsYTw6ynfcRYoVjZOPH9Oh6vTGJY_SQFJtnd3QGpMyhP6WCKXJxs2mRRWsrgi1ZdagbsO2ewX5onH2LgxK9Cd288GGH9WIwt1Q79VMg0guY7HoyUGUuqDP8MXIRLMsTyWqbbw_RhxIGznuYMlg",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "f504fd38-1ead-4182-b490-a683202e68ed",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1ba89776-919c-4427-846e-bb2633c6ec17",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "7ac3e54c-8049-46e4-a298-4f8e3e3aaccb",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "a4d8c8fb-ba4f-4da5-adbd-67a72412f099",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "e306e1d7-85c6-47d1-8132-65f70ce01a51",
+			"key": "activity_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"id": "6a66d0b0-df4b-484b-8578-1baba97c5ff6",
+			"key": "project_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"id": "318f7d5f-d452-4374-a519-71ec888c3320",
+			"key": "task_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"id": "2c718960-bb97-4292-88c2-2cab4de76163",
+			"key": "user_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"id": "6162838c-5680-4135-9927-f78fb2c105ff",
+			"key": "host",
+			"value": "https://morse-project-tracker.herokuapp.com",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
