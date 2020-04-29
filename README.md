@@ -65,7 +65,7 @@ After installing Flask globally, follow the instructions below:
 ## Database Setup
 1. Create database tables.
     ```
-    python3 manage_db.py db migrate
+    python3 manage_db.py db update
     ```
 2. Populate database with test values.
     ```
