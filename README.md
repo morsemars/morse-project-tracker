@@ -34,14 +34,14 @@ After installing Flask globally, follow the instructions below:
 
 1. Create a new virtual environment.
     ```
-    $ cd <project_directory>
-    $ python3 -m venv env
-    $ source env/bin/activate
+    cd <project_directory>
+    python3 -m venv env
+    source env/bin/activate
     ```
 
 2. Install dependencies.
 
-    `$ pip install -r requirements.txt`
+    `pip install -r requirements.txt`
 
 3. Run the development server.
 
@@ -50,20 +50,20 @@ After installing Flask globally, follow the instructions below:
     or 
 
     ```
-    $ export FLASK_APP=mpt
-    $ export FLASK_ENV=development
-    $ flask run
+    export FLASK_APP=mpt
+    export FLASK_ENV=development
+    flask run
     ```
 4. Go to http://127.0.0.1:5000/
 
 ## Database Setup
 1. Create database tables.
     ```
-    $ python3 manage_db.py db migrate
+    python3 manage_db.py db migrate
     ```
 2. Populate database with test values.
     ```
-    $ psql project_tracker < mpt.psql
+    psql project_tracker < mpt.psql
     ```
 
 ## Testing the Application
@@ -76,16 +76,17 @@ On the root directory, run the following commands:
         - password: Mpt_Manager
 
     - Login as a Developer then paste token to DEV_TOKEN.
-        - e-mail: developer@mpt.com
+        - e-mail: dev@mpt.com
         - password: Mpt_Developer
 
 2. Type the following commands in the project's root folder
 
     ```
-    $ dropdb mpt_test
-    $ createdb mpt_test
-    $ psql mpt_test < mpt.psql
-    $ python3 -m unittest discover tests -p *_test.py -v
+    dropdb mpt_test
+    createdb mpt_test
+    python3 create_test_db.py
+    psql mpt_test < mpt.psql
+    python3 -m unittest discover tests -p *_test.py -v
     ```
 
 ## Roles
