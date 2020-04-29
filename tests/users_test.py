@@ -1,8 +1,5 @@
 import unittest
 import json
-from flask_sqlalchemy import SQLAlchemy
-from mpt import create_app
-from mpt.models import db
 from mpt.models.user import User
 from tests.test_env import app
 from tests.config import TOKEN

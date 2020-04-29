@@ -1,8 +1,5 @@
 import unittest
 import json
-from flask_sqlalchemy import SQLAlchemy
-from mpt import create_app
-from mpt.models import db
 from mpt.models.task import Task
 from mpt.models.activity import Activity
 from tests.test_env import app
