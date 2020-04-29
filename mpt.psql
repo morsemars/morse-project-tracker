@@ -9,13 +9,13 @@ VALUES('Project 1', 'Test Project', 1, 'created'),('Project 2', 'Test Project 2'
 
 INSERT INTO public.project_assignment
 (project_id, user_id)
-VALUES(1, 2),(1, 3),(2, 2),(2, 3);
+VALUES(1, 2),(1, 3),(2, 2),(2, 3),(3, 2),(3, 3);
 
 INSERT INTO public.tasks
 ("name", description, status, project, assignee)
 VALUES('Task 1', 'A test task', 'created', 1, 2),('Task 2', 'A test task', 'created', 1, 3),
 ('Task 1', 'A test task', 'created', 2, 2),('Task 2', 'A test task', 'created', 2, 3),
-('Task 1', 'A test task', 'created', 3, 2),('Task 2', 'A test task', 'created',3, 3);
+('Task 1', 'A test task', 'created', 3, 2),('Task 2', 'A test task', 'created', 3, 3);
 
 INSERT INTO public.activities
 (task_id, description, hours)
