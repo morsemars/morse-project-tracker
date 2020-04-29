@@ -6,6 +6,8 @@ The Morse Project Tracker or MPT is a project management app targeted to keep tr
 
 This is made mainly to improve my skills as a full-stack developer. This will ensure that I will be able to add new features while making sure that the application is still usable.
 
+URL: http://morse-project-tracker.herokuapp.com/
+
 ## Getting Started
 
 ### Installing Dependencies
@@ -20,7 +22,7 @@ Follow instructions to install the latest version of python for your platform in
 
 - [SQLAlchemy](https://www.sqlalchemy.org/) is the Python SQL toolkit and ORM.
 
-- [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/#) is used to handle cross origin requests from the front-end server. 
+- [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/#) is used to handle cross origin requests. 
 
 #### Installing Dependencies and Running the Server Locally
 
@@ -67,60 +69,86 @@ After installing Flask globally, follow the instructions below:
 ## Testing the Application
 On the root directory, run the following commands:
 
-```
-$ dropdb mpt_test
-$ createdb mpt_test
-$ psql mpt_test < mpt.psql
-$ python3 -m unittest discover tests -p *_test.py -v
-```
+1. Login to the Application: http://127.0.0.1:5000/login, then copy the token to config.py inside the tests folder.
+
+    - Login as a Manager then paste token to TOKEN.
+        - e-mail: manager@mpt.com
+        - password: Mpt_Manager
+
+    - Login as a Developer then paste token to DEV_TOKEN.
+        - e-mail: developer@mpt.com
+        - password: Mpt_Developer
+
+2. Type the following commands in the project's root folder
+
+    ```
+    $ dropdb mpt_test
+    $ createdb mpt_test
+    $ psql mpt_test < mpt.psql
+    $ python3 -m unittest discover tests -p *_test.py -v
+    ```
+
+## Roles
+
+1. Developer
+    - GET: projects, tasks, activities, users
+    - POST: activities
+    - PATCH: activities, tasks
+    - DELETE: activities
+
+2. Manager
+    - GET: projects, tasks, activities, users
+    - POST: projects, tasks, users
+    - PATCH: projects, tasks, users
+    - DELETE: projects, tasks, users
 
 ## API Endpoints
 
 ### Users
 
-| API Endpoint | URL Parameters | Data Parameters | Description | Permissions |
-| --- | --- | --- | --- | --- |
-| GET /users | | | Fetches the list of users currently registered. | get:users |
-| POST /users | | ___first_name__: String <br> __last_name__: String <br> __position__: String -  Manager or Developer  | Registers a new user as a Manager or Developer. | post:users |
-| GET /users/:id | | | Fetches  the user details| get:users |
-| PATCH /users/id | | __first_name__: String <br> ___last_name__: String <br> __position__: String -  Manager or Developer   | Updates user details. | patch:user |
-| DELETE /users/:id | | | Deletes a user. | delete:user |
-| GET /users/:id/projects  | | | Fetches the list of projects the user has been assigned to. | get:projects |
-| GET /users/:id/tasks  | | | Fetches the list of tasks the user is handling. | get:tasks |
+| API Endpoint | URL Parameters | Data Parameters | Description |
+| --- | --- | --- | --- |
+| GET /users | | | Fetches the list of users currently registered. |
+| POST /users | | __first_name__: String <br> __last_name__: String <br> __position__: String -  Manager or Developer  | Registers a new user as a Manager or Developer. |
+| GET /users/:id | | | Fetches  the user details|
+| PATCH /users/id | | __first_name__: String <br> ___last_name__: String <br> __position__: String -  Manager or Developer   | Updates user details. |
+| DELETE /users/:id | | | Deletes a user. |
+| GET /users/:id/projects  | | | Fetches the list of projects the user has been assigned to. |
+| GET /users/:id/tasks  | | | Fetches the list of tasks the user is handling. |
 
 
 ### Projects
 
-| API Endpoint | URL Parameters | Data Parameters | Description | Permissions |
-| --- | --- | --- | --- | --- |
+| API Endpoint | URL Parameters | Data Parameters | Description |
+| --- | --- | --- | --- |
 | GET /projects | | | Fetches all projects. | get:projects |
-| POST /projects | | __name__: String <br> __description__: String <br> __manager__: Integer - id of the manager <br> __status__: String <br> __assignees__: [Integer] - list of developer ids | Add a new project. | post:projects |
-| GET /projects/:id | | | Fetches  the project details| get:projects |
-| PATCH /projects/:id | |  __name__: String <br> __description__: String <br> __manager__: Integer - id of the manager <br> __status__: String <br> __assignees__: [Integer] - list of developer ids | Updates project details. | patch:project |
-| DELETE /projects/:id | | | Deletes a project. | delete:project |
-| GET /projects/:id/tasks | | | Fetches  the tasks of a project | get:tasks |
+| POST /projects | | __name__: String <br> __description__: String <br> __manager__: Integer - id of the manager <br> __status__: String <br> __assignees__: [Integer] - list of developer ids | Add a new project. |
+| GET /projects/:id | | | Fetches  the project details|
+| PATCH /projects/:id | |  __name__: String <br> __description__: String <br> __manager__: Integer - id of the manager <br> __status__: String <br> __assignees__: [Integer] - list of developer ids | Updates project details. |
+| DELETE /projects/:id | | | Deletes a project. |
+| GET /projects/:id/tasks | | | Fetches  the tasks of a project |
 
 
 ### Tasks
 
-| API Endpoint | URL Parameters | Data Parameters | Description | Permissions |
-| --- | --- | --- | --- | --- |
-| GET /tasks | | | Fetches all tasks. | get:tasks |
-| POST /tasks | | __name__: String <br> __description__: String <br> __status__: String <br> __project__: Integer - project id <br> __assignee__: Integer - user id of the developer assigned. | Add a new task. | post:tasks |
-| GET /tasks/:id | | | Fetches  the task details| get:tasks |
-| PATCH /tasks/:id | | __name__: String <br> __description__: String <br> __status__: String <br> __project__: Integer - project id <br> __assignee__: Integer - user id of the developer assigned. | Updates task details. | patch:task |
-| DELETE /tasks/:id | | | Deletes a task. | delete:task |
-| GET /tasks/:id/activities | | | Fetches  the task details| get:activities |
+| API Endpoint | URL Parameters | Data Parameters | Description |
+| --- | --- | --- | --- |
+| GET /tasks | | | Fetches all tasks. |
+| POST /tasks | | __name__: String <br> __description__: String <br> __status__: String <br> __project__: Integer - project id <br> __assignee__: Integer - user id of the developer assigned. | Add a new task. |
+| GET /tasks/:id | | | Fetches  the task details|
+| PATCH /tasks/:id | | __name__: String <br> __description__: String <br> __status__: String <br> __project__: Integer - project id <br> __assignee__: Integer - user id of the developer assigned. | Updates task details. |
+| DELETE /tasks/:id | | | Deletes a task. |
+| GET /tasks/:id/activities | | | Fetches  the task details |
 
 ### Activities
 
-| API Endpoint | URL Parameters | Data Parameters | Description | Permissions |
-| --- | --- | --- | --- | --- |
-| GET /activities | | | Fetches all activities. | get:activities |
-| POST /activities | | __task_id__: Intger <br> __description__: String - activity description <br> __hours__:Integer | Add a new activity. | post:activities |
-| GET /activities/:id | | | Fetches  the activity details| get:activities |
-| PATCH /activities/:id | | __description__: String - activity description <br> __hours__:Integer | Updates activity details. | patch:activity |
-| DELETE /activities/:id | | | Deletes a activity. | delete:activity |
+| API Endpoint | URL Parameters | Data Parameters | Description |
+| --- | --- | --- | --- |
+| GET /activities | | | Fetches all activities. |
+| POST /activities | | __task_id__: Intger <br> __description__: String - activity description <br> __hours__:Integer | Add a new activity. |
+| GET /activities/:id | | | Fetches  the activity details|
+| PATCH /activities/:id | | __description__: String - activity description <br> __hours__:Integer | Updates activity details. |
+| DELETE /activities/:id | | | Deletes a activity. |
 
 
 
