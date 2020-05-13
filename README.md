@@ -80,12 +80,7 @@ On the root directory, run the following commands:
 1. Login to the Application: http://127.0.0.1:5000/login, then copy the token to config.py inside the tests folder.
 
     - Login as a Manager then paste token to TOKEN.
-        - e-mail: manager@mpt.com
-        - password: Mpt_Manager
-
     - Login as a Developer then paste token to DEV_TOKEN.
-        - e-mail: dev@mpt.com
-        - password: Mpt_Developer
 
 2. Type the following commands in the project's root folder
 
