@@ -6,7 +6,7 @@ The Morse Project Tracker or MPT is a project management app targeted to keep tr
 
 This is made mainly to improve my skills as a full-stack developer. This will ensure that I will be able to add new features while making sure that the application is still usable.
 
-URL: http://morse-project-tracker.herokuapp.com/
+URL: https://morse-project-tracker.herokuapp.com/
 
 ## Getting Started
 
